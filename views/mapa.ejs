@@ -14,12 +14,14 @@
         background-image: url(/images/sky.jpg);
         background-size: cover;
         background-position: center;
+        margin: 20px;
         }
 
         #leaflet-map {
             height: 90%;
             width: 100%;
             float: left;
+            margin: 5px;
         }
 
         .ui.button {
@@ -158,7 +160,7 @@
     <body class="bg-gray-100 flex flex-col min-h-screen">
         <div class="contenedor">
             <div class="parte parte1">
-                <h1 class="text-green-600 text-5xl font-bold">Mapa de Calidad del Aire en Bogotá</h1>
+                <h1 class="text-green-600 text-3xl font-bold">Mapa de Calidad del Aire en Bogotá</h1>
                 <div id="leaflet-locations">
                     <!-- Botón para regresar al mapa de Bogotá -->
                     <button id="bogota-button" class="ui blue button">Ver Bogotá</button>
@@ -189,7 +191,7 @@
                             gestureHandling: true,
                             zoomSnap: 0.1,
                         })
-                            .setView([4.60971, -74.08175], 11)  // Coordenadas de Bogotá con un zoom adecuado
+                            .setView([4.69000, -73.90000], 11)  // Coordenadas de Bogotá con un zoom adecuado
                             .addLayer(OpenStreetMap_Mapnik);
     
                         return map;
@@ -350,7 +352,7 @@
     
                         // Ubicación de Bogotá con sus coordenadas
                         const locations = {
-                            Bogotá: "4.60971, -74.08175",
+                            Bogotá: "4.69000, -73.90000",
                         };
     
                         // Llamar a la función para cargar los puntos (marcadores) de calidad del aire
@@ -360,7 +362,7 @@
                         // Botón para resetear el mapa a Bogotá
                         const bogotaButton = document.getElementById("bogota-button");
                         bogotaButton.addEventListener("click", () => {
-                            map.setView([4.60971, -74.08175], 11); // Centra el mapa en Bogotá
+                            map.setView([4.69000, -73.90000], 11); // Centra el mapa en Bogotá
                             removeMarkers(map);
                             populateMarkers(map, bounds); // Limites aproximados de Bogotá
                         });
@@ -377,7 +379,7 @@
                 </script>
             </div>
             <div class="parte parte2">
-                <h1 class="h1tablas" style="background-color: lightskyblue;">Búsqueda en AirSensePro</h1>
+                <h1 class = "h1tablas text-green-600 text-4xl font-bold" style="background-color: lightskyblue;">Búsqueda en AirSensePro</h1>
                 <div class="tablas">
                     <div id="output"></div>
                 </div>
@@ -397,7 +399,7 @@
     
                     // Función para realizar la búsqueda de las estaciones en Bogotá
                     function search(output) {
-                        output.html("<h2>Estaciones de calidad del aire en Bogotá:</h2>");
+                        output.html("Estaciones principales en Bogotá:");
                         output.append($("<div/>").html("Cargando..."));
                         output.append($("<div/>").addClass("cp-spinner cp-meter"));
     
@@ -412,7 +414,7 @@
                             .then((response) => response.json())
                             .then((result) => {
                                 // Limpiamos el spinner de carga
-                                output.html("<h2>Estaciones de calidad del aire en Bogotá:</h2>");
+                                output.html("Haz clic en cualquiera de los botones para ver el AQI detallado desplegado en la parte inferior:");
                                 if (!result || result.status !== "ok") {
                                     output.append("¡Lo siento, no hay resultados disponibles!");
                                     return;
@@ -425,12 +427,6 @@
     
                                 var table = $("<table/>").addClass("result");
                                 output.append(table);
-    
-                                output.append(
-                                    $("<div/>").html(
-                                        "Haz clic en cualquiera de los botones para ver el AQI detallado"
-                                    )
-                                );
     
                                 var stationInfo = $("<div/>");
                                 output.append(stationInfo);
@@ -486,6 +482,9 @@
                                     h: "Humedad relativa",
                                     d: "Punto de rocío",
                                     p: "Presión atmosférica",
+                                    dew: "Punto de rocío",
+                                    wd: "Dirección del viento",
+                                    wg: "Ráfagas de viento",
                                 };
     
                                 output.append(
