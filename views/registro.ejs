@@ -93,10 +93,10 @@
                   document.getElementById('mensaje').innerText = data.mensaje;
   
                   // Redirigir a la pestaña de inicio si el registro es exitoso
-                  if (data.mensaje === 'Registro exitoso, por favor espere') {
+                  if (data.mensaje === 'Registro exitoso') {
                       setTimeout(() => {
-                          window.location.href = 'inicio'; // Redirigir a inicio
-                      }, 2000); // Esperar 2 segundos antes de redirigir
+                          window.location.href = '/inicio'; // Redirigir a inicio
+                      });
                   }
               })
               .catch((error) => {
