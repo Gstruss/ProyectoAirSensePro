@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <link rel="icon" type="image/png" href="/images/logo.png">
     <meta charset="UTF-8">
@@ -12,37 +12,151 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <style>
-    body {
-        font-family: 'Roboto', sans-serif;
-        background-image: url(/images/sky.jpg);
-        background-size: cover;
-        background-position: center;
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-image: url(/images/sky.jpg);
+            background-size: cover;
+            background-position: center;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .dropdown {
+            margin: 10px 0;
+            width: 90%; /* Extender al 90% del ancho de la pantalla */
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .btn {
+            background-color: #007bff;
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            text-align: left;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .content {
+            display: none;
+            background-color: #e9ecef;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 5px;
+            text-align: left;
         }
     </style>
 </head>
-<header>
-        <!-- Navigation Bar -->
+<body>
+    <header>
+        <!-- Barra de Navegación -->
         <nav class="bg-white shadow-md w-full">
-          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
-              <div class="flex items-center">
-                <a href="inicio" class="text-blue-600 text-2xl font-bold"
-                  >AirSensePro</a>
-                <img src="/images/logo.png" class="ml-2" alt="logo" width="50px" lang="50px"/>
-              </div>
-              <div class="md:block">
-                <div class="ml-10 flex items-baseline space-x-4">
-                  <a
-                    href="inicio"
-                    class="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
-                    >Home</a>
-                  <a
-                    href="mapa"
-                    class="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
-                    >Mapa</a>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-16">
+                    <div class="flex items-center">
+                        <a href="inicio" class="text-blue-600 text-2xl font-bold">AirSensePro</a>
+                        <img src="/images/logo.png" class="ml-2" alt="logo" width="50px" />
+                    </div>
+                    <div class="md:block">
+                        <div class="ml-10 flex items-baseline space-x-4">
+                            <a href="inicio" class="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                            <a href="mapa" class="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">Mapa</a>
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
-          </div>
         </nav>
-</header>
+    </header>
+
+    <div class="container">
+        <h1  class="text-green-600 text-5xl font-bold">Información Ambiental</h1>
+        <div class="dropdown">
+            <button class="btn" onclick="toggleContent('co')">Monóxido de carbono (CO)</button>
+            <div id="co" class="content">
+                <p>El monóxido de carbono (CO) es un gas incoloro, inodoro y altamente tóxico que se produce principalmente
+                por la combustión incompleta de combustibles fósiles, como gasolina, carbón, gas natural y madera. 
+                Se encuentra en emisiones de vehículos, chimeneas, estufas y procesos industriales. Su peligrosidad 
+                radica en que se une a la hemoglobina en la sangre con una afinidad mucho mayor que el oxígeno, lo que 
+                puede provocar intoxicación y, en casos severos, la muerte.</p>
+                    <br>
+                <p>Las mediciones se expresan típicamente en partes por millón (ppm) o miligramos por metro cúbico (mg/m³).</p>
+                    <br>
+                <p>
+                <strong>Niveles seguros (buenos):</strong>
+                <li>0-2 ppm: Considerados normales y seguros para la salud.</li>
+                    <br>
+                <strong>Niveles de alerta (moderados):</strong>
+                <li>2-9 ppm: Puede ser necesario tomar precauciones, especialmente en espacios cerrados o mal ventilados.</li>
+                    <br>
+                <strong>Niveles peligrosos (malos):</strong>
+                <li>9-35 ppm: Exposición prolongada puede causar efectos adversos en la salud, incluyendo dolores de cabeza y mareos.</li>
+                <li>Más de 35 ppm: Puede causar síntomas más graves y potencialmente mortales, especialmente con exposición prolongada.</li>
+            </div>
+        </div>
+        <div class="dropdown">
+            <button class="btn" onclick="toggleContent('puntoRocio')">Punto de rocío</button>
+            <div id="puntoRocio" class="content">Información sobre el punto de rocío.</div>
+        </div>
+        <div class="dropdown">
+            <button class="btn" onclick="toggleContent('humedadRelativa')">Humedad relativa</button>
+            <div id="humedadRelativa" class="content">Información sobre la humedad relativa.</div>
+        </div>
+        <div class="dropdown">
+            <button class="btn" onclick="toggleContent('dioxidoNitrógeno')">Dióxido de nitrógeno</button>
+            <div id="dioxidoNitrógeno" class="content">Información sobre el dióxido de nitrógeno.</div>
+        </div>
+        <div class="dropdown">
+            <button class="btn" onclick="toggleContent('ozono')">Ozono</button>
+            <div id="ozono" class="content">Información sobre el ozono.</div>
+        </div>
+        <div class="dropdown">
+            <button class="btn" onclick="toggleContent('presionAtmosferica')">Presión atmosférica</button>
+            <div id="presionAtmosferica" class="content">Información sobre la presión atmosférica.</div>
+        </div>
+        <div class="dropdown">
+            <button class="btn" onclick="toggleContent('pm10')">PM10</button>
+            <div id="pm10" class="content">Información sobre PM10.</div>
+        </div>
+        <div class="dropdown">
+            <button class="btn" onclick="toggleContent('pm25')">PM2.5</button>
+            <div id="pm25" class="content">Información sobre PM2.5.</div>
+        </div>
+        <div class="dropdown">
+            <button class="btn" onclick="toggleContent('lluvia')">Lluvia (precipitación)</button>
+            <div id="lluvia" class="content">Información sobre la lluvia.</div>
+        </div>
+        <div class="dropdown">
+            <button class="btn" onclick="toggleContent('dioxidoAzufre')">Dióxido de azufre</button>
+            <div id="dioxidoAzufre" class="content">Información sobre el dióxido de azufre.</div>
+        </div>
+        <div class="dropdown">
+            <button class="btn" onclick="toggleContent('temperatura')">Temperatura</button>
+            <div id="temperatura" class="content">Información sobre la temperatura.</div>
+        </div>
+        <div class="dropdown">
+            <button class="btn" onclick="toggleContent('viento')">Viento</button>
+            <div id="viento" class="content">Información sobre el viento.</div>
+        </div>
+        <div class="dropdown">
+            <button class="btn" onclick="toggleContent('rafagasViento')">Ráfagas de viento</button>
+            <div id="rafagasViento" class="content">Información sobre las ráfagas de viento.</div>
+        </div>
+    </div>
+
+    <script>
+        function toggleContent(id) {
+            const content = document.getElementById(id);
+            const isVisible = content.style.display === 'block';
+            content.style.display = isVisible ? 'none' : 'block';
+        }
+    </script>
+</body>
+</html>
