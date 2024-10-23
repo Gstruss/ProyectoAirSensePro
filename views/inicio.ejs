@@ -20,8 +20,7 @@
         }
     </style>
 </head>
-<body>
-    <body class="bg-gray-100 flex flex-col min-h-screen">
+<header>
         <!-- Navigation Bar -->
         <nav class="bg-white shadow-md w-full">
           <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -50,54 +49,77 @@
             </div>
           </div>
         </nav>
-    
-        <!-- Main Content -->
-        <div
-          class="flex flex-col md:flex-row items-center justify-center flex-grow space-y-6 md:space-y-0 md:space-x-10 mt-12 p-10"
-        >
-          <div
-            class="text-center md:text-left border p-6 rounded-lg bg-white shadow-lg"
-          >
-            <h1 class="text-green-600 text-5xl font-bold">AirSensePro</h1>
-            <p class="text-lg mt-4">
+</header>
+<body class="bg-gray-100 flex flex-col min-h-screen">
+  <!-- Main Content -->
+  <div class="flex flex-col md:flex-row items-center justify-center flex-grow space-y-6 md:space-y-0 md:space-x-10 mt-12 p-10">
+      <div class="text-center md:text-left border p-6 rounded-lg bg-white shadow-lg">
+          <h1 class="text-green-600 text-5xl font-bold">AirSensePro</h1>
+          <p class="text-lg mt-4">
               AirSensePro es una plataforma web que brinda a los usuarios
               información en tiempo real sobre agentes contaminantes del aire e
               información meteorológica en la ciudad de Bogotá.
-            </p>
-          </div>
-          <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-sm border">
-            <form action="/login" method="post">
-              <div class="mb-4">
-                <input
-                  type="email" name="correo" id="correo" placeholder="Correo electrónico"
-                  required
-                  class="w-full p-3 border border-gray-300 rounded-lg"
-                />
-              </div>
-              <div class="mb-4">
-                <input
-                  type="password" name="clave" id="pass" placeholder="Contraseña"
-                  required
-                  class="w-full p-3 border border-gray-300 rounded-lg"
-                />
-              </div>
-              <div class="mb-4">
-                <input
-                  type="submit" value="Iniciar sesión"
-                  class="w-full bg-blue-600 text-white p-3 rounded-lg font-bold">
-              </div>
-              <div class="text-center mb-4">
-                <a href="#" class="text-blue-600 text-sm"
-                  >¿Olvidaste tu contraseña?</a>
-              </div>
-              <hr class="mb-4" />
-              <div class="text-center">
-              </div>
-            </form>
-          <a href="/registro" class="btn btn-primary w-full bg-green-600 text-white p-3 rounded-lg font-bold">
+          </p>
+      </div>
+      <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-sm border">
+        <form id="loginForm">
+            <div class="mb-4">
+                <input type="email" name="correo" id="correo" placeholder="Correo electrónico" required class="w-full p-3 border border-gray-300 rounded-lg" />
+            </div>
+            <div class="mb-4">
+                <input type="password" name="clave" id="pass" placeholder="Contraseña" required class="w-full p-3 border border-gray-300 rounded-lg" />
+            </div>
+            <div class="mb-4">
+                <input type="submit" value="Iniciar sesión" class="w-full bg-blue-600 text-white p-3 rounded-lg font-bold" />
+            </div>
+            <div class="text-center mb-4">
+                <a href="#" class="text-blue-600 text-sm">¿Olvidaste tu contraseña?</a>
+            </div>
+            <hr class="mb-4" />
+        </form>
+        <a href="/registro" class="btn btn-primary w-full bg-green-600 text-white p-3 rounded-lg font-bold">
             <span class="text-white">Registrarse</span>
-          </a>
-          </div>
-        </div>
+        </a>
+        <div id="mensaje" class="mt-4 text-center"></div>
+    </div>
+    
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevenir el envío del formulario
+    
+            // Obtener los valores del formulario
+            const correo = document.getElementById('correo').value;
+            const contrasena = document.getElementById('pass').value;
+    
+            // Enviar los datos al servidor usando fetch
+            fetch('/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    correo: correo,
+                    clave: contrasena,
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Mostrar el mensaje en la página
+                document.getElementById('mensaje').innerText = data.mensaje;
+    
+                // Redirigir a la pestaña de mapa si el inicio de sesión es exitoso
+                if (data.mensaje === 'Inicio de sesión exitoso') {
+                    setTimeout(() => {
+                        window.location.href = '/mapa'; // Redirigir a mapa
+                    }, 2000); // Esperar 2 segundos antes de redirigir
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                document.getElementById('mensaje').innerText = 'Error al iniciar sesión.';
+            });
+        });
+    </script>    
 </body>
+
 </html>

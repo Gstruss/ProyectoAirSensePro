@@ -24,55 +24,87 @@
         }
         </style>
     </head>
-    <body class="bg-gray-100 flex flex-col min-h-screen">
-        <!-- Navigation Bar -->
-        <nav class="bg-white shadow-md w-full">
+    <header>
+      <!-- Navigation Bar -->
+      <nav class="bg-white shadow-md w-full">
           <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
-              <div class="flex items-center">
-                <a href="inicio" class="text-blue-600 text-2xl font-bold"
-                  >AirSensePro</a>
-                <img src="/images/logo.png" class="ml-2" alt="logo" width="50px" lang="50px"/>
+              <div class="flex items-center justify-between h-16">
+                  <div class="flex items-center">
+                      <a href="inicio" class="text-blue-600 text-2xl font-bold">AirSensePro</a>
+                      <img src="/images/logo.png" class="ml-2" alt="logo" width="50px" />
+                  </div>
+                  <div class="md:block">
+                      <div class="ml-10 flex items-baseline space-x-4">
+                          <a href="inicio" class="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                          <a href="about" class="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">About us</a>
+                          <a href="documents" class="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">Documents</a>
+                      </div>
+                  </div>
               </div>
-              <div class="md:block">
-                <div class="ml-10 flex items-baseline space-x-4">
-                  <a
-                    href="inicio"
-                    class="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
-                    >Home</a>
-                  <a
-                    href="about"
-                    class="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
-                    >About us</a>
-                  <a
-                    href="documents"
-                    class="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
-                    >Documents</a>
-                </div>
-              </div>
-            </div>
           </div>
-        </nav>
-
-    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;" class="bg-white p-6 rounded-lg shadow-lg w-full max-w-sm border">
-        <h1 class="text-green-600 text-5xl font-bold">Registrarse en AirSensePro</h1>
-        <br><br>
-    <form action="/validar" method="post">
-        <div class="mb-4">
-            <input type="text" name="nom" id="nom" placeholder="Nombre de Usuario" required
-            class="w-full p-3 border border-gray-300 rounded-lg"/>
-        </div>
-        <div class="mb-4">
-            <input type="email" name="correo" id="correo" placeholder="Correo electrónico" required
-              class="w-full p-3 border border-gray-300 rounded-lg"/>
-        </div>
-        <div class="mb-4">
-            <input type="password" name="pass" id="pass" placeholder="Contraseña" required
-              class="w-full p-3 border border-gray-300 rounded-lg"/>
-        </div>
-        <input type="submit" value="Registrar" class="w-full bg-green-600 text-white p-3 rounded-lg font-bold">
-    </form>
-    </div>
-
-</body>
+      </nav>
+  </header>
+  
+  <body class="bg-gray-100 flex flex-col min-h-screen">
+      <div class="flex-grow flex items-center justify-center">
+          <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-sm border">
+              <h1 class="text-green-600 text-5xl font-bold">Registrarse en AirSensePro</h1>
+              <br><br>
+              <form id="registroForm">
+                  <div class="mb-4">
+                      <input type="text" name="nom" id="nom" placeholder="Nombre de Usuario" required class="w-full p-3 border border-gray-300 rounded-lg" />
+                  </div>
+                  <div class="mb-4">
+                      <input type="email" name="correo" id="correo" placeholder="Correo electrónico" required class="w-full p-3 border border-gray-300 rounded-lg" />
+                  </div>
+                  <div class="mb-4">
+                      <input type="password" name="pass" id="pass" placeholder="Contraseña" required class="w-full p-3 border border-gray-300 rounded-lg" />
+                  </div>
+                  <input type="submit" value="Registrar" class="w-full bg-green-600 text-white p-3 rounded-lg font-bold">
+              </form>
+              <div id="mensaje" class="mt-4"></div>
+          </div>
+      </div>
+  
+      <script>
+          document.getElementById('registroForm').addEventListener('submit', function(event) {
+              event.preventDefault(); // Prevenir el envío del formulario
+  
+              // Obtener los valores del formulario
+              const nombre = document.getElementById('nom').value;
+              const correo = document.getElementById('correo').value;
+              const contrasena = document.getElementById('pass').value;
+  
+              // Enviar los datos al servidor usando fetch
+              fetch('/validar', {
+                  method: 'POST',
+                  headers: {
+                      'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify({
+                      nom: nombre,
+                      correo: correo,
+                      pass: contrasena,
+                  }),
+              })
+              .then(response => response.json())
+              .then(data => {
+                  // Mostrar el mensaje en la página
+                  document.getElementById('mensaje').innerText = data.mensaje;
+  
+                  // Redirigir a la pestaña de inicio si el registro es exitoso
+                  if (data.mensaje === 'Registro exitoso, por favor espere') {
+                      setTimeout(() => {
+                          window.location.href = 'inicio'; // Redirigir a inicio
+                      }, 2000); // Esperar 2 segundos antes de redirigir
+                  }
+              })
+              .catch((error) => {
+                  console.error('Error:', error);
+                  document.getElementById('mensaje').innerText = 'Error al registrar el usuario.';
+              });
+          });
+      </script>
+  </body>
+  
 </html>
