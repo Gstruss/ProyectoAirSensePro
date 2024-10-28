@@ -17,7 +17,7 @@ AirSensePro es una plataforma web que brinda a los usuarios información en tiem
 https://www.youtube.com/watch?v=5YHhqZae3XA
 
 ### 📂 Portafolio del Proyecto
-...
+https://gstruss.github.io/PortafolioAirSensePro/
 
 ### 💻 Despliegue en la web
 ...
