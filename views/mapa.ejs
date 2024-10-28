@@ -14,7 +14,7 @@
         background-image: url(/images/sky.jpg);
         background-size: cover;
         background-position: center;
-        margin: 20px;
+        margin: 0;
         }
 
         #leaflet-map {
@@ -153,13 +153,25 @@
           </div>
         </nav>
     </header>
+    <div>
+        <h2 class="text-2xl" style="font-family: 'Roboto', sans-serif; margin: 10px; border-left: 4px solid #007bff; border-radius: 5px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
+            En el Mapa podrás encontrar las diferentes estaciones ubicadas en Bogotá. Haz click en cualquier estación
+            para conocer información más detallada de cada punto. Los puntos tanto en el mapa como en la tabla muestran
+            por defecto el Índice de polución del PM2.5
+        </h2>
+
+        <h2 class="text-2xl" style="font-family: 'Roboto', sans-serif; margin: 10px; border-left: 4px solid #007bff; border-radius: 5px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
+            Si deseas conocer un poco más sobre cada elemento que recogen los puntos, haz click en la opción que 
+            dice 'Information' ubicado en la barra de navegación
+        </h2>
+    </div>
     <body class="bg-gray-100 flex flex-col min-h-screen">
         <div class="contenedor">
             <div class="parte parte1">
-                <h1 class="text-green-600 text-3xl font-bold">Mapa de Calidad del Aire en Bogotá</h1>
+                <h1 class = "h1tablas text-green-600 text-4xl font-bold" style="background-color: lightskyblue;">Mapa de Calidad del Aire en Bogotá</h1>
                 <div id="leaflet-locations">
                     <!-- Botón para regresar al mapa de Bogotá -->
-                    <button id="bogota-button" class="ui blue button">Ver Bogotá</button>
+                    <button id="bogota-button" class="ui blue button">Centrar mapa</button>
                 </div>
                 <div id="leaflet-map"></div>
                 <div id="leaflet-map-error" style="display: none;"></div>
@@ -410,7 +422,7 @@
                             .then((response) => response.json())
                             .then((result) => {
                                 // Limpiamos el spinner de carga
-                                output.html("Haz clic en cualquiera de los botones para ver el AQI detallado desplegado en la parte inferior:");
+                                output.html("Haz clic en cualquiera de los botones para ver la información detallada desplegada en la parte inferior:");
                                 if (!result || result.status !== "ok") {
                                     output.append("¡Lo siento, no hay resultados disponibles!");
                                     return;
