@@ -110,23 +110,112 @@
                     relativa alcanza el 100%, lo que significa que el aire está completamente saturado con vapor de 
                     agua.</p>
                     <br>
+                <p>El punto de rocío se mide en grados Celsius (°C). Esta medida representa la temperatura a la que el
+                    aire se satura y comienza a condensarse en forma de agua.
+                </p>
             </div>
         </div>
         <div class="dropdown">
             <button class="btn" onclick="toggleContent('humedadRelativa')">Humedad relativa</button>
-            <div id="humedadRelativa" class="content">Información sobre la humedad relativa.</div>
+            <div id="humedadRelativa" class="content">
+                <p>La humedad relativa es la cantidad de vapor de agua presente en el aire en comparación con la cantidad 
+                    máxima que el aire puede contener a una temperatura específica. Se expresa como un porcentaje (%).
+                </p>
+                    <br>
+                <p>
+                    Por ejemplo, una humedad relativa del 50% significa que el aire contiene la mitad de la cantidad de 
+                    vapor de agua que podría sostener a esa temperatura.
+                </p>
+            </div>
         </div>
         <div class="dropdown">
-            <button class="btn" onclick="toggleContent('dioxidoNitrógeno')">Dióxido de nitrógeno</button>
-            <div id="dioxidoNitrógeno" class="content">Información sobre el dióxido de nitrógeno.</div>
+            <button class="btn" onclick="toggleContent('dioxidoNitrógeno')">Dióxido de nitrógeno (NO₂)</button>
+            <div id="dioxidoNitrógeno" class="content">
+                <p>El dióxido de nitrógeno es un gas contaminante que se forma principalmente a partir de la 
+                    combustión de combustibles fósiles, como en vehículos y centrales eléctricas. Es un componente 
+                    importante del smog y puede tener efectos negativos en la salud humana y el medio ambiente, 
+                    contribuyendo a problemas respiratorios y a la formación de lluvia ácida.
+                </p>
+                <br>
+                <p>El dióxido de nitrógeno se mide generalmente en partes por millón (ppm) o microgramos por metro
+                    cúbico (µg/m³).
+                </p>
+                <br>
+                <p>
+                    <strong>Niveles buenos (baja contaminación):</strong>
+                        <li>0 - 40 µg/m³ (0 - 0.02 ppm): El aire es considerado limpio y no presenta riesgos para la salud.</li>
+                            <br>
+                    <strong>Niveles moderados:</strong>
+                        <li>41 - 80 µg/m³ (0.02 - 0.04 ppm): Puede haber algún riesgo para grupos sensibles, como personas 
+                            con asma o problemas respiratorios, pero el público en general no suele verse afectado.</li>
+                            <br>
+                    <strong>Niveles altos (mala calidad del aire):</strong>
+                        <li>81 - 180 µg/m³ (0.04 - 0.09 ppm): Los efectos en la salud pueden comenzar a ser evidentes, 
+                            especialmente para personas vulnerables. Se recomienda limitar actividades al aire libre.</li>
+                            <br>
+                    <strong>Niveles muy altos (alta contaminación):</strong>
+                        <li>181 µg/m³ o más (0.09 ppm o más): Puede haber efectos adversos en la salud para la población 
+                            general. Se aconseja evitar la exposición prolongada y actividades al aire libre.</li>
+                </p>
+            </div>  
         </div>
         <div class="dropdown">
-            <button class="btn" onclick="toggleContent('ozono')">Ozono</button>
-            <div id="ozono" class="content">Información sobre el ozono.</div>
+            <button class="btn" onclick="toggleContent('ozono')">Ozono (O₃)</button>
+            <div id="ozono" class="content">
+                <p>El ozono es un gas que se encuentra en la atmósfera y tiene un papel dual. En la estratosfera, 
+                    el ozono forma la capa de ozono, que protege la Tierra de la radiación ultravioleta del sol. 
+                    Sin embargo, en la troposfera (donde respiramos), el ozono es un contaminante que se forma a 
+                    partir de reacciones químicas entre contaminantes como óxidos de nitrógeno y compuestos orgánicos 
+                    volátiles, especialmente en presencia de luz solar.
+                </p>
+                <br>
+                <p>El ozono se mide en partes por millón (ppm) o microgramos por metro cúbico (µg/m³)</p>
+                <br>
+                <p>
+                    <strong>Niveles buenos (baja contaminación):</strong>
+                        <li>0 - 50 µg/m³ (0 - 0.025 ppm): El aire es considerado limpio y no presenta riesgos para la salud.</li>
+                            <br>
+                    <strong>Niveles moderados:</strong>
+                        <li>51 - 100 µg/m³ (0.025 - 0.05 ppm): Puede haber un riesgo bajo para grupos sensibles, como personas
+                             con problemas respiratorios. La mayoría de las personas no se ven afectadas.</li>
+                            <br>
+                    <strong>Niveles insalubres (alta contaminación):</strong>
+                        <li>101 - 180 µg/m³ (0.05 - 0.09 ppm): Se pueden observar efectos en la salud en grupos sensibles. 
+                            Se recomienda limitar actividades al aire libre.</li>
+                            <br>
+                    <strong>Niveles muy altos (mala calidad del aire):</strong>
+                        <li>181 - 240 µg/m³ (0.09 - 0.12 ppm): Puede haber efectos adversos en la salud para la población 
+                            general. Se aconseja evitar la exposición prolongada y actividades al aire libre.</li>
+                            <br>
+                    <strong>Niveles peligrosos (alta contaminación):</strong>
+                        <li>241 µg/m³ o más (0.12 ppm o más): Los efectos adversos son significativos para todos, y se 
+                            recomienda evitar la actividad física al aire libre.</li>
+                </p>
+            </div>
         </div>
         <div class="dropdown">
             <button class="btn" onclick="toggleContent('presionAtmosferica')">Presión atmosférica</button>
-            <div id="presionAtmosferica" class="content">Información sobre la presión atmosférica.</div>
+            <div id="presionAtmosferica" class="content">
+                <p>La presión atmosférica es el peso del aire que se encuentra sobre una superficie en un momento dado. 
+                    Es el resultado de la fuerza que ejercen las moléculas de aire al colisionar con una superficie. 
+                    La presión atmosférica varía según la altitud y las condiciones meteorológicas.
+                </p>
+                <br>
+                <p>La presión atmosférica se mide en hectopascales (hPa) y el valor que se obtiene tiene 
+                    varias implicaciones sobre las condiciones del aire en la ciudad.
+                </p>
+                <br>
+                <p>
+                    <strong>Presión baja (700 hPa y menos):</strong>
+                        <li>Puede estar relacionado con condiciones climáticas inestables, tormentas o mal tiempo.</li>
+                            <br>
+                    <strong>Presión media (800-900 hPa):</strong>
+                        <li>Común en ciudades a gran altitud, indica condiciones relativamente estables.</li>
+                            <br>
+                    <strong>Presión alta (1000 hPa y más):</strong>
+                        <li>Generalmente sugiere un sistema de alta presión, que suele estar asociado con buen tiempo.</li>
+                </p>
+            </div>
         </div>
         <div class="dropdown">
             <button class="btn" onclick="toggleContent('pm10')">PM10</button>
@@ -138,7 +227,32 @@
         </div>
         <div class="dropdown">
             <button class="btn" onclick="toggleContent('lluvia')">Lluvia (precipitación)</button>
-            <div id="lluvia" class="content">Información sobre la lluvia.</div>
+            <div id="lluvia" class="content">
+                <p>La precipitación se refiere al agua que cae desde la atmósfera a la superficie de la Tierra en 
+                    forma de lluvia, nieve, aguanieve o granizo. La forma más común de precipitación en climas 
+                    templados es la lluvia.
+                </p>
+                <br>
+                <p>La precipitación se mide principalmente en centímetros (cm)</p>
+                <br>
+                <p>Por ejemplo, si se dice que ha caído 1 cm de lluvia, significa que, si se distribuyera uniformemente 
+                    sobre una superficie plana y sellada, habría una capa de agua de 1 cm de altura.
+                </p>
+                <br>
+                <p>
+                    <strong>0 - 1 cm:</strong>
+                        <li>Lluvias muy ligeras, generalmente sin acumulación significativa.</li>
+                            <br>
+                    <strong>1 - 2.5 cm:</strong>
+                        <li> Lluvias ligeras a moderadas, que pueden empapar el suelo.</li>
+                            <br>
+                    <strong>2.5 - 5 cm:</strong>
+                        <li>Lluvias fuertes, que pueden causar escorrentía y acumulación de agua.</li>
+                            <br>
+                    <strong>5 cm o más:</strong>
+                        <li>Lluvias muy fuertes o torrenciales, que pueden causar inundaciones y otros problemas.</li>
+                </p>
+            </div>
         </div>
         <div class="dropdown">
             <button class="btn" onclick="toggleContent('dioxidoAzufre')">Dióxido de azufre</button>
