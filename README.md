@@ -1,5 +1,5 @@
 <div style="text-align: center;">
-    <img src="public/images/logolargo.png" alt="LogoAirSensePro" width="900" height="400" />
+    <img src="public/images/logolargo.png" alt="LogoAirSensePro"/>
 </div>
 
 # 
