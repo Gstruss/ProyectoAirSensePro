@@ -25,4 +25,4 @@ https://www.youtube.com/watch?v=5YHhqZae3XA
 https://gstruss.github.io/PortafolioAirSensePro/
 
 ### 💻 Despliegue en la web
-...
+https://proyecto-air-sense-pro.vercel.app/inicio
