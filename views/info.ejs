@@ -378,14 +378,108 @@
         </div>
         <div class="dropdown">
             <button class="btn" onclick="toggleContent('viento')">Viento</button>
-            <div id="viento" class="content">Información sobre el viento.</div>
+            <div id="viento" class="content">
+                <p>
+                    El viento es el movimiento del aire en la atmósfera, que se genera principalmente por diferencias 
+                    de presión atmosférica. Estas diferencias se producen debido al calentamiento desigual de la 
+                    superficie terrestre por el sol.
+                </p>
+                <br>
+                <p>
+                    El viento se mide generalmente en metros por segundo (m/s).
+                </p>
+                <br>
+                <p>
+                    Medidas de velocidades del viento:
+                    <br>
+                  <li><strong>0.0 - 0.5</strong>	Calma: el aire está en reposo.</li>
+                  <li><strong>0.6 - 2.5</strong>	Brisa muy ligera: apenas se siente el viento.</li>
+                  <li><strong>2.6 - 5.5</strong>	Brisa ligera: se mueve el follaje, se puede sentir el viento.</li>
+                  <li><strong>5.6 - 8.0</strong>	Brisa moderada: se mueven ramas pequeñas, puede afectar actividades al aire libre.</li>
+                  <li><strong>8.1 - 10.7</strong>	Brisa fresca: se mueven ramas grandes, puede dificultar el manejo de paraguas.</li>
+                  <li><strong>10.8 - 13.8</strong>	Viento fuerte: se pueden romper ramas, se dificulta caminar contra el viento.</li>
+                  <li><strong>13.9 - 17.1</strong>	Viento muy fuerte: daños menores a estructuras y árboles.</li>
+                  <li><strong>17.2 - 20.6</strong>	Viento fuerte: pueden caerse árboles pequeños y provocar daños.</li>
+                  <li>  <strong>Más de 20.6</strong>	Viento muy fuerte o huracanado: puede causar daños significativos.</li>
+                </p>
+                <br>
+                <p>
+                    Esta clasificación se basa en la escala de Beaufort, que es una forma común de describir la fuerza del viento.
+                </p>
+            </div>
+        </div>
+        <div class="dropdown">
+            <button class="btn" onclick="toggleContent('direccionViento')">Dirección del viento</button>
+            <div id="direccionViento" class="content">
+                <p>
+                    La dirección del viento se refiere al origen del viento, es decir, de dónde sopla. Se mide en 
+                    grados desde el norte, en una escala de 0° a 360°. Por ejemplo:
+                    <br>
+                   <li><strong>0°</strong> indica que el viento sopla del norte.</li>
+                   <li><strong>90°</strong> significa que sopla del este.</li>
+                   <li><strong>180°</strong> indica que sopla del sur.</li>
+                   <li><strong>270°</strong> significa que sopla del oeste.</li>
+                </p>
+                <br>
+                <p>
+                    Aquí tienes una lista más completa de las direcciones del viento con sus respectivos grados:
+                </p>
+                <br>
+                <p>
+                   <li><strong>0°:</strong> Norte</li>
+                   <li><strong>45°:</strong> Noreste</li>
+                   <li><strong>90°:</strong> Este</li>
+                   <li><strong>135°:</strong> Sureste</li>
+                   <li><strong>180°:</strong> Sur</li>
+                   <li><strong>225°:</strong> Suroeste</li>
+                   <li><strong>270°:</strong> Oeste</li>
+                   <li><strong>315°:</strong> Noroeste</li>
+                </p>
+                <br>
+                <p>
+                    Además, aquí tienes algunas combinaciones que indican direcciones intermedias:
+                </p>
+                <br>
+                <p>
+                  <li><strong>22.5°:</strong> Norte-Noreste</li>
+                  <li><strong>67.5°:</strong> Este-Noreste</li>
+                  <li><strong>112.5°:</strong> Este-Sureste</li>
+                  <li><strong>157.5°:</strong> Sur-Sureste</li>
+                  <li><strong>202.5°:</strong> Sur-Suroeste</li>
+                  <li><strong>247.5°:</strong> Oeste-Suroeste</li>
+                  <li><strong>292.5°:</strong> Oeste-Noroeste</li>
+                  <li><strong>337.5°:</strong> Norte-Noroeste</li>
+                </p>
+            </div>
         </div>
         <div class="dropdown">
             <button class="btn" onclick="toggleContent('rafagasViento')">Ráfagas de viento</button>
-            <div id="rafagasViento" class="content">Información sobre las ráfagas de viento.</div>
+            <div id="rafagasViento" class="content">
+                <p>
+                    Las ráfagas de viento son aumentos repentinos y breves en la velocidad del viento. Estas ráfagas 
+                    pueden ocurrir en cualquier momento y suelen ser más intensas que la velocidad promedio del viento 
+                    en ese momento.
+                </p>
+                <br>
+                <p>
+                    Las ráfagas de viento se miden en unidades de velocidad, típicamente en metros por segundo (m/s). 
+                </p>
+                <br>
+                <p>
+                    Medidas de velocidades de las ráfagas de viento:
+                    <br>
+                    <li><strong>0.0 - 0.5</strong> Calma: no hay ráfagas perceptibles.</li>
+                    <li><strong>0.6 - 2.5</strong> Ráfagas muy ligeras: apenas perceptibles.</li>
+                    <li><strong>2.6 - 5.5</strong> Ráfagas ligeras: se siente un movimiento leve en el follaje.</li>
+                    <li><strong>5.6 - 8.0</strong> Ráfagas moderadas: se mueven ramas pequeñas, puede afectar actividades al aire libre.</li>
+                    <li><strong>8.1 - 10.7</strong> Ráfagas frescas: se mueven ramas grandes, puede dificultar el uso de paraguas.</li>
+                    <li><strong>10.8 - 13.8</strong> Ráfagas fuertes: pueden romper ramas pequeñas, dificultad al caminar contra el viento.</li>
+                    <li><strong>13.9 - 17.1</strong> Ráfagas muy fuertes: pueden causar daños menores a estructuras y árboles.</li>
+                    <li><strong>Más de 17.2</strong> Ráfagas severas: pueden causar daños significativos a árboles y estructuras.</li>
+                </p>
+            </div>
         </div>
     </div>
-
     <script>
         function toggleContent(id) {
             const content = document.getElementById(id);
