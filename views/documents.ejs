@@ -12,131 +12,113 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <style>
-    body {
-        font-family: 'Roboto', sans-serif;
-        background-image: url(/images/sky.jpg);
-        background-size: cover;
-        background-position: center;
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-image: url(/images/sky.jpg);
+            background-size: cover;
+            background-position: center;
         }
     </style>
 </head>
 <header>
-        <!-- Navigation Bar -->
-        <nav class="bg-white shadow-md w-full">
-          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Navigation Bar -->
+    <nav class="bg-white shadow-md w-full">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
-              <div class="flex items-center">
-                <a href="inicio" class="text-blue-600 text-2xl font-bold"
-                  >AirSensePro</a>
-                <img src="/images/logo.png" class="ml-2" alt="logo" width="50px" lang="50px"/>
-              </div>
-              <div class="md:block">
-                <div class="ml-10 flex items-baseline space-x-4">
-                  <a
-                    href="inicio"
-                    class="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
-                    >Home</a>
-                  <a
-                    href="about"
-                    class="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
-                    >About us</a>
-                  <a
-                    href="documents"
-                    class="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
-                    >Documents</a>
+                <div class="flex items-center">
+                    <a href="inicio" class="text-blue-600 text-2xl font-bold">AirSensePro</a>
+                    <img src="/images/logo.png" class="ml-2" alt="logo" width="50px" />
                 </div>
-              </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="inicio" class="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                        <a href="about" class="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">About us</a>
+                        <a href="documents" class="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">Documents</a>
+                    </div>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-gray-600 focus:outline-none">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                        </svg>
+                    </button>
+                </div>
             </div>
-          </div>
-        </nav>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden">
+            <a href="inicio" class="block px-4 py-2 text-gray-600 hover:bg-gray-200">Home</a>
+            <a href="about" class="block px-4 py-2 text-gray-600 hover:bg-gray-200">About us</a>
+            <a href="documents" class="block px-4 py-2 text-gray-600 hover:bg-gray-200">Documents</a>
+        </div>
+    </nav>
 </header>
+
 <body class="bg-gray-100 flex flex-col min-h-screen">
-        <div class="grid grid-cols-3 gap-4 p-8">
-            <!-- Item 1 -->
-            <div class="flex flex-col items-center">
-                <img alt="Imagen alusiva" class="w-32 h-32" height="150" src="/images/i3.png" width="150"/>
-                <div class="mt-2 text-center">
-                 <p class="font-bold">
-                  Documento de Arquitectura
-                 </p>
-                 <p class="text-gray-400 text-sm">
-                  <a href="/docs/Doc_Arq.pdf" download>Descargar</a>
-                 </p>
-                </div>
-               </div>
-            <!-- Item 2 -->
-            <div class="flex flex-col items-center">
-                <img alt="Imagen alusiva" class="w-32 h-32" height="150" src="/images/i5.png" width="150"/>
-                <div class="mt-2 text-center">
-                 <p class="font-bold">
-                  Documento General
-                 </p>
-                 <p class="text-gray-400 text-sm">
-                  <a href="/docs/Doc_ASP.pdf" download>Descargar</a>
-                 </p>
-                </div>
-               </div>
-            <!-- Item 3 -->
-            <div class="flex flex-col items-center">
-                <img alt="Imagen alusiva" class="w-32 h-32" height="150" src="/images/i2.png" width="150"/>
-                <div class="mt-2 text-center">
-                 <p class="font-bold">
-                  Plantilla FODA
-                 </p>
-                 <p class="text-gray-400 text-sm">
-                  <a href="/docs/FODA.xlsx" download>Descargar</a>
-                 </p>
-                </div>
-               </div>
-            <!-- Item 4 -->
-            <div class="flex flex-col items-center">
-                <img alt="Imagen alusiva" class="w-32 h-32" height="150" src="/images/i6.png" width="150"/>
-                <div class="mt-2 text-center">
-                 <p class="font-bold">
-                  Documento IEEE830
-                 </p>
-                 <p class="text-gray-400 text-sm">
-                  <a href="/docs/IEEE830.pdf" download>Descargar</a>
-                 </p>
-                </div>
-               </div>
-            <!-- Item 5 -->
-            <div class="flex flex-col items-center">
-                <img alt="Imagen alusiva" class="w-32 h-32" height="150" src="/images/i4.png" width="150"/>
-                <div class="mt-2 text-center">
-                 <p class="font-bold">
-                  Informe del Proyecto
-                 </p>
-                 <p class="text-gray-400 text-sm">
-                  <a href="/docs/Informe.pdf" download>Descargar</a>
-                 </p>
-                </div>
-               </div>
-            <!-- Item 6 -->
-            <div class="flex flex-col items-center">
-                <img alt="Imagen alusiva" class="w-32 h-32" height="150" src="/images/i1.png" width="150"/>
-                <div class="mt-2 text-center">
-                 <p class="font-bold">
-                  Plantilla PESTAL
-                 </p>
-                 <p class="text-gray-400 text-sm">
-                  <a href="/docs/Pestal.mpp" download>Descargar</a>
-                 </p>
-                </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-8">
+        <!-- Item 1 -->
+        <div class="flex flex-col items-center">
+            <img alt="Imagen alusiva" class="w-32 h-32" height="150" src="/images/i3.png" width="150"/>
+            <div class="mt-2 text-center">
+                <p class="font-bold">Documento de Arquitectura</p>
+                <p class="text-gray-400 text-sm"><a href="/docs/Doc_Arq.pdf" download>Descargar</a></p>
             </div>
-            <!-- Item 7 -->
-            <div class="flex flex-col items-center">
-              <img alt="Imagen alusiva" class="w-32 h-32" height="150" src="/images/i7.png" width="150"/>
-              <div class="mt-2 text-center">
-               <p class="font-bold">
-                Presentación del Proyecto
-               </p>
-               <p class="text-gray-400 text-sm">
-                <a href="/docs/Ponencia.pdf" download>Descargar</a>
-               </p>
-              </div>
-          </div>
-           </div>       
-    </body>
+        </div>
+        <!-- Item 2 -->
+        <div class="flex flex-col items-center">
+            <img alt="Imagen alusiva" class="w-32 h-32" height="150" src="/images/i5.png" width="150"/>
+            <div class="mt-2 text-center">
+                <p class="font-bold">Documento General</p>
+                <p class="text-gray-400 text-sm"><a href="/docs/Doc_ASP.pdf" download>Descargar</a></p>
+            </div>
+        </div>
+        <!-- Item 3 -->
+        <div class="flex flex-col items-center">
+            <img alt="Imagen alusiva" class="w-32 h-32" height="150" src="/images/i2.png" width="150"/>
+            <div class="mt-2 text-center">
+                <p class="font-bold">Plantilla FODA</p>
+                <p class="text-gray-400 text-sm"><a href="/docs/FODA.xlsx" download>Descargar</a></p>
+            </div>
+        </div>
+        <!-- Item 4 -->
+        <div class="flex flex-col items-center">
+            <img alt="Imagen alusiva" class="w-32 h-32" height="150" src="/images/i6.png" width="150"/>
+            <div class="mt-2 text-center">
+                <p class="font-bold">Documento IEEE830</p>
+                <p class="text-gray-400 text-sm"><a href="/docs/IEEE830.pdf" download>Descargar</a></p>
+            </div>
+        </div>
+        <!-- Item 5 -->
+        <div class="flex flex-col items-center">
+            <img alt="Imagen alusiva" class="w-32 h-32" height="150" src="/images/i4.png" width="150"/>
+            <div class="mt-2 text-center">
+                <p class="font-bold">Informe del Proyecto</p>
+                <p class="text-gray-400 text-sm"><a href="/docs/Informe.pdf" download>Descargar</a></p>
+            </div>
+        </div>
+        <!-- Item 6 -->
+        <div class="flex flex-col items-center">
+            <img alt="Imagen alusiva" class="w-32 h-32" height="150" src="/images/i1.png" width="150"/>
+            <div class="mt-2 text-center">
+                <p class="font-bold">Plantilla PESTAL</p>
+                <p class="text-gray-400 text-sm"><a href="/docs/Pestal.mpp" download>Descargar</a></p>
+            </div>
+        </div>
+        <!-- Item 7 -->
+        <div class="flex flex-col items-center">
+            <img alt="Imagen alusiva" class="w-32 h-32" height="150" src="/images/i7.png" width="150"/>
+            <div class="mt-2 text-center">
+                <p class="font-bold">Presentación del Proyecto</p>
+                <p class="text-gray-400 text-sm"><a href="/docs/Ponencia.pdf" download>Descargar</a></p>
+            </div>
+        </div>
+    </div>
 </body>
+
+<script>
+    document.getElementById('mobile-menu-button').addEventListener('click', function() {
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenu.classList.toggle('hidden');
+    });
+</script>
+
 </html>

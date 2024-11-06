@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AirSensePro Map</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
   <link rel="icon" type="image/png" href="/images/logo.png">
@@ -10,551 +12,567 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body {
-        font-family: 'Roboto', sans-serif;
-        background-image: url(/images/sky.jpg);
-        background-size: cover;
-        background-position: center;
-        margin: 0;
-        }
+      font-family: 'Roboto', sans-serif;
+      background-image: url(/images/sky.jpg);
+      background-size: cover;
+      background-position: center;
+      margin: 0;
+      overflow-x: hidden; /* Evita desplazamiento horizontal no deseado */
+      height: 100%; /* Asegura que la altura de la página cubra toda la pantalla */
+    }
 
-        #leaflet-map {
-            height: 90%;
-            width: 100%;
-            float: left;
-            margin: 5px;
-        }
+    #leaflet-map {
+      height: 100%;
+      width: 100%;
+      margin: 5px;
+    }
 
-        .ui.button {
-            margin: 2px;
-        }
+    .ui.button {
+      margin: 2px;
+    }
 
-        #leaflet-map-error {
-            color: red;
-        }
+    #leaflet-map-error {
+      color: red;
+    }
 
-        /* Estilos generales */
-        .tablas {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: flex-end;
-            align-items: flex-start;
-            height: 100vh;
-        }
+    /* Contenedor principal con flexbox */
+    .contenedor {
+      display: flex;
+      flex-direction: row;
+      padding: 0;
+      justify-content: space-between; /* Separa las partes */
+      overflow: auto; /* Permite desplazarse en caso de que todo el contenido exceda el tamaño de la pantalla */
+      height: 100%; /* Hace que el contenedor ocupe toda la altura de la pantalla */
+    }
 
-        /* Estilo de la tabla de resultados */
-        .result {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
+    /* Cada una de las dos partes */
+    .parte {
+      flex: 1;
+      padding: 10px;
+      height: 100%; /* Asegura que las partes ocupen toda la altura disponible */
+      overflow: hidden; /* Esconde el contenido desbordado, se manejará el scroll a nivel de contenedor */
+    }
 
-        .result td {
-            border: 1px solid #ccc;
-            padding: 8px;
-            text-align: center;
-        }
+    /* Estilo para la parte del mapa */
+    .parte1 {
+      background-color: lightskyblue;
+      display: flex;
+      flex-direction: column;
+      height: 100%; /* Asegura que el mapa se expanda adecuadamente */
+    }
 
-        /* Estilo de los botones de estación */
-        button {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            padding: 10px;
-            cursor: pointer;
-            border-radius: 4px;
-            font-size: 16px;
-            width: 100%;
-            text-align: left;
-        }
+    /* Estilo para la parte de la tabla */
+    .parte2 {
+      background-color: white;
+      overflow-y: auto; /* Permite el scroll vertical en la parte de la tabla */
+      max-height: calc(100vh - 60px); /* Limita la altura en pantallas pequeñas para evitar que se desborde */
+    }
 
-        button:hover {
-            background-color: #0056b3;
-        }
+    /* Títulos de las secciones */
+    .h1tablas {
+      text-align: center;
+      color: #333;
+      margin: 10px 0;
+    }
 
-        /* Estilo de los spinners de carga */
-        .cp-spinner {
-            border: 4px solid #ccc;
-            border-top: 4px solid #333;
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            animation: spin 1s linear infinite;
-            margin: 10px auto;
-        }
+    /* Responsividad para pantallas pequeñas */
+    @media (max-width: 768px) {
+      .contenedor {
+        flex-direction: column; /* En pantallas pequeñas, las partes se apilan */
+      }
 
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
+      .parte {
+        flex: none;
+        width: 100%;
+        height: auto; /* Deja que la altura sea automática */
+        overflow-y: auto; /* Permite scroll en las partes que exceden el tamaño de la pantalla */
+      }
 
-            100% {
-                transform: rotate(360deg);
-            }
-        }
+      #leaflet-map {
+        height: 300px; /* Ajusta el mapa en pantallas pequeñas */
+      }
 
-        .h1tablas {
-            text-align: center;
-            width: 100%;
-            color: #333;
-        }
+      .parte1, .parte2 {
+        margin-bottom: 10px;
+      }
+    }
 
-        /* Contenedor principal */
-        .contenedor {
-            display: flex;
-            height: 100vh;
-            /* 100% de la altura de la ventana */
-        }
+    /* Estilo de la tabla de resultados */
+    .result {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
 
-        /* Cada una de las dos partes */
-        .parte {
-            flex: 1;
-            /* Toma el 50% del espacio disponible */
-            height: 100%;
-            /* Asegura que ocupe toda la altura */
-        }
+    .result td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: center;
+    }
 
-        /* Estilos opcionales para visualizar las partes */
-        .parte1 {
-            background-color: lightskyblue;
-        }
+    /* Estilo de los botones de estación */
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+      border-radius: 4px;
+      font-size: 16px;
+      width: 100%;
+      text-align: left;
+    }
 
-        .parte2 {
-            overflow-y: auto;  /* Activa la barra de desplazamiento vertical */
-            max-height: 100vh; /* Limita la altura a la altura de la ventana */
-        }
+    button:hover {
+      background-color: #0056b3;
+    }
 
-</style>
-</head> 
-    <header>
-        <!-- Navigation Bar -->
-        <nav class="bg-white shadow-md w-full">
-          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
-              <div class="flex items-center">
-                <a href="inicio" class="text-blue-600 text-2xl font-bold"
-                  >AirSensePro</a>
-                <img src="/images/logo.png" class="ml-2" alt="logo" width="50px" lang="50px"/>
-              </div>
-              <div class="md:block">
-                <div class="ml-10 flex items-baseline space-x-4">
-                  <a
-                    href="inicio"
-                    class="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
-                    >Home</a>
-                  <a
-                    href="info"
-                    class="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
-                    >Information</a>
-                </div>
-              </div>
+    /* Estilo de los spinners de carga */
+    .cp-spinner {
+      border: 4px solid #ccc;
+      border-top: 4px solid #333;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      animation: spin 1s linear infinite;
+      margin: 10px auto;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+</head>
+<body class="bg-gray-100 flex flex-col min-h-screen">
+
+  <header>
+    <!-- Barra de navegación -->
+    <nav class="bg-white shadow-md w-full">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
+          <div class="flex items-center">
+            <a href="inicio" class="text-blue-600 text-2xl font-bold">AirSensePro</a>
+            <img src="/images/logo.png" class="ml-2" alt="logo" width="50px" />
+          </div>
+          <div class="md:block">
+            <div class="ml-10 flex items-baseline space-x-4">
+              <a href="inicio" class="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">Home</a>
+              <a href="info" class="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">Information</a>
             </div>
           </div>
-        </nav>
-    </header>
-    <div>
-        <h2 class="text-2xl" style="font-family: 'Roboto', sans-serif; margin: 10px; border-left: 4px solid #007bff; border-radius: 5px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
-            En el Mapa podrás encontrar las diferentes estaciones ubicadas en Bogotá. Haz click en cualquier estación
-            para conocer información más detallada de cada punto. Los puntos tanto en el mapa como en la tabla muestran
-            por defecto el Índice de polución del PM2.5
-        </h2>
-
-        <h2 class="text-2xl" style="font-family: 'Roboto', sans-serif; margin: 10px; border-left: 4px solid #007bff; border-radius: 5px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
-            Si deseas conocer un poco más sobre cada elemento que recogen los puntos, haz click en la opción que 
-            dice 'Information' ubicado en la barra de navegación
-        </h2>
-    </div>
-    <body class="bg-gray-100 flex flex-col min-h-screen">
-        <div class="contenedor">
-            <div class="parte parte1">
-                <h1 class = "h1tablas text-green-600 text-4xl font-bold" style="background-color: lightskyblue;">Mapa de Calidad del Aire en Bogotá</h1>
-                <div id="leaflet-locations">
-                    <!-- Botón para regresar al mapa de Bogotá -->
-                    <button id="bogota-button" class="ui blue button">Centrar mapa</button>
-                </div>
-                <div id="leaflet-map"></div>
-                <div id="leaflet-map-error" style="display: none;"></div>
-    
-                <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-                <script>
-                    let allMarkers = {};
-    
-                    function token() {
-                        return '49df940962423948af071555385762e80d44389b'; // Tu token
-                    }
-    
-                    function createMap() {
-                        var OpenStreetMap_Mapnik = L.tileLayer(
-                            "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-                            {
-                                maxZoom: 19,
-                                attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-                            }
-                        );
-    
-                        // Crear el mapa centrado en Bogotá
-                        let map = L.map(document.getElementById("leaflet-map"), {
-                            attributionControl: false,
-                            gestureHandling: true,
-                            zoomSnap: 0.1,
-                        })
-                            .setView([4.69000, -73.90000], 11)  // Coordenadas de Bogotá con un zoom adecuado
-                            .addLayer(OpenStreetMap_Mapnik);
-    
-                        return map;
-                    }
-    
-                    // Función que filtra las estaciones dentro de los límites de Bogotá
-                    function isWithinBogota(lat, lon) {
-                        // Definir los límites aproximados de Bogotá
-                        const latMin = 4.5;
-                        const latMax = 4.9;
-                        const lonMin = -74.3;
-                        const lonMax = -73.7;
-    
-                        return lat >= latMin && lat <= latMax && lon >= lonMin && lon <= lonMax;
-                    }
-    
-                    function populateMarkers(map, bounds, isRefresh) {
-                        return fetch(
-                            "https://api.waqi.info/v2/map/bounds/?latlng=" +
-                            bounds +
-                            "&token=" +
-                            token()
-                        )
-                            .then((x) => x.json())
-                            .then((stations) => {
-                                if (stations.status != "ok") throw stations.data;
-    
-                                stations.data.forEach((station) => {
-                                    // Filtrar solo estaciones dentro de Bogotá
-                                    if (!isWithinBogota(station.lat, station.lon)) return;
-    
-                                    if (allMarkers[station.uid])
-                                        map.removeLayer(allMarkers[station.uid]);
-    
-                                    let iw = 83,
-                                        ih = 107;
-                                    let icon = L.icon({
-                                        iconUrl:
-                                            "https://waqi.info/mapicon/" + station.aqi + ".30.png",
-                                        iconSize: [iw / 2, ih / 2],
-                                        iconAnchor: [iw / 4, ih / 2 - 5],
-                                    });
-    
-                                    let marker = L.marker([station.lat, station.lon], {
-                                        zIndexOffset: station.aqi,
-                                        title: station.station.name,
-                                        icon: icon,
-                                    }).addTo(map);
-    
-                                    marker.on("click", () => {
-                                        let popup = L.popup()
-                                            .setLatLng([station.lat, station.lon])
-                                            .setContent(station.station.name)
-                                            .openOn(map);
-    
-                                        getMarkerPopup(station.uid).then((info) => {
-                                            popup.setContent(info);
-                                        });
-                                    });
-    
-                                    allMarkers[station.uid] = marker;
-                                });
-    
-                                document.getElementById("leaflet-map-error").style.display = "none";
-                                return stations.data.map(
-                                    (station) => new L.LatLng(station.lat, station.lon)
-                                );
-                            })
-                            .catch((e) => {
-                                var o = document.getElementById("leaflet-map-error");
-                                o.innerHTML = "Sorry...." + e;
-                                o.style.display = "";
-                            });
-                    }
-    
-                    function populateAndFitMarkers(map, bounds) {
-                        removeMarkers(map);
-                        if (bounds.split(",").length == 2) {
-                            let [lat, lng] = bounds.split(",");
-                            lat = parseFloat(lat);
-                            lng = parseFloat(lng);
-                            bounds = `${lat - 0.5},${lng - 0.5},${lat + 0.5},${lng + 0.5}`;
-                        }
-                        populateMarkers(map, bounds).then((markerBounds) => {
-                            let [lat1, lng1, lat2, lng2] = bounds.split(",");
-                            let mapBounds = L.latLngBounds(
-                                L.latLng(lat2, lng2),
-                                L.latLng(lat1, lng1)
-                            );
-                            map.fitBounds(mapBounds, {maxZoom: 12, paddingTopLeft: [0, 40]});
-                        });
-                    }
-    
-                    function removeMarkers(map) {
-                        Object.values(allMarkers).forEach((marker) => map.removeLayer(marker));
-                        allMarkers = {};
-                    }
-    
-                    function getMarkerPopup(markerUID) {
-                        return getMarkerAQI(markerUID).then((marker) => {
-                            let info =
-                                marker.city.name +
-                                ": AQI " +
-                                marker.aqi +
-                                " updated on " +
-                                new Date(marker.time.v * 1000).toLocaleTimeString() +
-                                "<br>";
-    
-                            if (marker.city.location) {
-                                info += "<b>Location</b>: ";
-                                info += "<small>" + marker.city.location + "</small><br>";
-                            }
-    
-                            let pollutants = ["pm25", "pm10", "o3", "no2", "so2", "co"];
-    
-                            info += "<b>Pollutants</b>: ";
-                            for (let specie in marker.iaqi) {
-                                if (pollutants.indexOf(specie) >= 0)
-                                    info += "<u>" + specie + "</u>:" + marker.iaqi[specie].v + " ";
-                            }
-                            info += "<br>";
-    
-                            info += "<b>Weather</b>: ";
-                            for (let specie in marker.iaqi) {
-                                if (pollutants.indexOf(specie) < 0)
-                                    info += "<u>" + specie + "</u>:" + marker.iaqi[specie].v + " ";
-                            }
-                            info += "<br>";
-    
-                            info += "<b>Attributions</b>: <small>";
-                            info += marker.attributions
-                                .map(
-                                    (attribution) =>
-                                        "<a target=_ href='" +
-                                        attribution.url +
-                                        "'>" +
-                                        attribution.name +
-                                        "</a>"
-                                )
-                                .join(" - ");
-                            return info;
-                        });
-                    }
-    
-                    function getMarkerAQI(markerUID) {
-                        return fetch(
-                            "https://api.waqi.info/feed/@" + markerUID + "/?token=" + token()
-                        )
-                            .then((x) => x.json())
-                            .then((data) => {
-                                if (data.status != "ok") throw data.reason;
-                                return data.data;
-                            });
-                    }
-    
-                    function init() {
-                        var map = createMap();
-    
-                        // Ubicación de Bogotá con sus coordenadas
-                        const locations = {
-                            Bogotá: "4.69000, -73.90000",
-                        };
-    
-                        // Llamar a la función para cargar los puntos (marcadores) de calidad del aire
-                        const bounds = "4.523540900490207,-74.25903532274278,4.794004584467748,-73.97837587548669"; // Limites aproximados de Bogotá
-                        populateMarkers(map, bounds); // Cargar los marcadores automáticamente al iniciar
-    
-                        // Botón para resetear el mapa a Bogotá
-                        const bogotaButton = document.getElementById("bogota-button");
-                        bogotaButton.addEventListener("click", () => {
-                            map.setView([4.69000, -73.90000], 11); // Centra el mapa en Bogotá
-                            removeMarkers(map);
-                            populateMarkers(map, bounds); // Limites aproximados de Bogotá
-                        });
-    
-                        // Cargar las estaciones de calidad del aire
-                        fetch("https://api.waqi.info/v2/feed/here/?token=" + token())
-                            .then((x) => x.json())
-                            .then((x) => {
-                                // En este caso no agregamos más botones, solo el de Bogotá
-                            });
-                    }
-    
-                    init();
-                </script>
-            </div>
-            <div class="parte parte2">
-                <h1 class = "h1tablas text-green-600 text-4xl font-bold" style="background-color: lightskyblue;">Búsqueda en AirSensePro</h1>
-                <div class="tablas">
-                    <div id="output"></div>
-                </div>
-    
-                <script>
-    
-                    function token() {
-                        return '49df940962423948af071555385762e80d44389b'; // Tu token
-                    }
-    
-                    // Función de inicialización
-                    function init(outputId) {
-                        var output = $(outputId);
-                        // Realizar la búsqueda por estaciones de Bogotá cuando la página carga
-                        search(output);
-                    }
-    
-                    // Función para realizar la búsqueda de las estaciones en Bogotá
-                    function search(output) {
-                        output.html("Estaciones principales en Bogotá:");
-                        output.append($("<div/>").html("Cargando..."));
-                        output.append($("<div/>").addClass("cp-spinner cp-meter"));
-    
-                        // Configuramos la búsqueda para que sólo obtenga estaciones en Bogotá
-                        let url =
-                            "https://api.waqi.info/v2/search/?token=" +
-                            token() + // Usamos el token directamente
-                            "&keyword=" +
-                            encodeURIComponent("Bogotá"); // Siempre buscaremos estaciones en Bogotá
-    
-                        fetch(url)
-                            .then((response) => response.json())
-                            .then((result) => {
-                                // Limpiamos el spinner de carga
-                                output.html("Haz clic en cualquiera de los botones para ver la información detallada desplegada en la parte inferior:");
-                                if (!result || result.status !== "ok") {
-                                    output.append("¡Lo siento, no hay resultados disponibles!");
-                                    return;
-                                }
-    
-                                if (result.data.length === 0) {
-                                    output.append("¡Lo siento, no se encontraron estaciones en Bogotá!");
-                                    return;
-                                }
-    
-                                var table = $("<table/>").addClass("result");
-                                output.append(table);
-    
-                                var stationInfo = $("<div/>");
-                                output.append(stationInfo);
-    
-                                // Iteramos sobre las estaciones encontradas
-                                result.data.forEach(function (station, i) {
-                                    var tr = $("<tr>");
-                                    tr.append($("<td>").html(
-                                        $("<button/>").text(station.station.name)
-                                            .on("click", function () {
-                                                showStation(station, stationInfo); // Mostrar información al hacer clic
-                                            })
-                                    ));
-                                    tr.append($("<td>").html(colorize(station.aqi)));
-                                    tr.append($("<td>").html(station.time.stime));
-                                    table.append(tr);
-                                });
-                            })
-                            .catch((e) => {
-                                output.html("<div class='ui negative message'>Error: " + e + "</div>");
-                            });
-                    }
-    
-                    // Función para mostrar detalles de la estación seleccionada
-                    function showStation(station, output) {
-                        output.html("<h2>Contaminantes y condiciones meteorológicas:</h2>");
-                        output.append($("<div/>").html("Cargando..."));
-                        output.append($("<div/>").addClass("cp-spinner cp-meter"));
-    
-                        let url =
-                            "https://api.waqi.info/feed/@" + station.uid + "/?token=" + token();
-    
-                        fetch(url)
-                            .then((response) => response.json())
-                            .then((result) => {
-                                output.html("<h2>Contaminantes y condiciones meteorológicas:</h2>");
-                                if (!result || result.status !== "ok") {
-                                    output.append("¡Lo siento, algo salió mal! ");
-                                    if (result.data) output.append($("<code>").html(result.data));
-                                    return;
-                                }
-    
-                                var names = {
-                                    pm25: "PM<sub>2.5</sub>",
-                                    pm10: "PM<sub>10</sub>",
-                                    o3: "Ozono",
-                                    no2: "Dióxido de nitrógeno",
-                                    so2: "Dióxido de azufre",
-                                    co: "Monóxido de carbono",
-                                    t: "Temperatura",
-                                    w: "Viento",
-                                    r: "Lluvia (precipitación)",
-                                    h: "Humedad relativa",
-                                    d: "Punto de rocío",
-                                    p: "Presión atmosférica",
-                                    dew: "Punto de rocío",
-                                    wd: "Dirección del viento",
-                                    wg: "Ráfagas de viento",
-                                };
-    
-                                output.append(
-                                    $("<div>").html(
-                                        "Estación: " +
-                                        result.data.city.name +
-                                        " en " +
-                                        result.data.time.s
-                                    )
-                                );
-    
-                                var table = $("<table/>").addClass("result");
-                                output.append(table);
-    
-                                for (var specie in result.data.iaqi) {
-                                    var aqi = result.data.iaqi[specie].v;
-                                    var tr = $("<tr>");
-                                    tr.append($("<td>").html(names[specie] || specie));
-                                    tr.append($("<td>").html(colorize(aqi, specie)));
-                                    table.append(tr);
-                                }
-                            })
-                            .catch((e) => {
-                                output.html("<h2>Lo siento, algo salió mal</h2>" + e);
-                            });
-                    }
-    
-                    // Función para cambiar el color según el AQI
-                    function colorize(aqi, specie) {
-                        specie = specie || "aqi";
-                        if (["pm25", "pm10", "no2", "so2", "co", "o3", "aqi"].indexOf(specie) < 0)
-                            return aqi;
-    
-                        var spectrum = [
-                            {a: 0, b: "#cccccc", f: "#ffffff"},
-                            {a: 50, b: "#009966", f: "#ffffff"},
-                            {a: 100, b: "#ffde33", f: "#000000"},
-                            {a: 150, b: "#ff9933", f: "#000000"},
-                            {a: 200, b: "#cc0033", f: "#ffffff"},
-                            {a: 300, b: "#660099", f: "#ffffff"},
-                            {a: 500, b: "#7e0023", f: "#ffffff"},
-                        ];
-    
-                        var i = 0;
-                        for (i = 0; i < spectrum.length - 2; i++) {
-                            if (aqi == "-" || aqi <= spectrum[i].a) break;
-                        }
-                        return $("<div/>")
-                            .html(aqi)
-                            .css("font-size", "120%")
-                            .css("min-width", "30px")
-                            .css("text-align", "center")
-                            .css("background-color", spectrum[i].b)
-                            .css("color", spectrum[i].f);
-                    }
-    
-                    // Inicializa la búsqueda cuando la página se carga
-                    $(document).ready(function () {
-                        init('#output');
-                    });
-                </script>
-            </div>
         </div>
-    </body>
+      </div>
+    </nav>
+  </header>
+  <div>
+      <h2 class="text-2xl" style="font-family: 'Roboto', sans-serif; margin: 10px; border-left: 4px solid #007bff; border-radius: 5px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
+          En el Mapa podrás encontrar las diferentes estaciones ubicadas en Bogotá. Haz click en cualquier estación
+          para conocer información más detallada de cada punto. Los puntos tanto en el mapa como en la tabla muestran
+          por defecto el Índice de polución del PM2.5
+      </h2>
+
+      <h2 class="text-2xl" style="font-family: 'Roboto', sans-serif; margin: 10px; border-left: 4px solid #007bff; border-radius: 5px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
+          Si deseas conocer un poco más sobre cada elemento que recogen los puntos, haz click en la opción que 
+          dice 'Information' ubicado en la barra de navegación
+      </h2>
+  </div>
+
+  <div class="contenedor">
+    <!-- Mapa -->
+    <div class="parte parte1">
+      <h1 class="h1tablas text-green-600 text-4xl font-bold">Mapa de Calidad del Aire en Bogotá</h1>
+      <div id="leaflet-locations">
+        <button id="bogota-button" class="ui blue button">Centrar mapa</button>
+      </div>
+      <div id="leaflet-map"></div>
+      <div id="leaflet-map-error" style="display: none;"></div>
+    </div>
+
+    <!-- Tabla de resultados -->
+    <div class="parte parte2">
+      <h1 class="h1tablas text-green-600 text-4xl font-bold">Búsqueda en AirSensePro</h1>
+      <div class="tablas">
+        <div id="output"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script>
+    // Tu código de mapa y búsqueda
+    let allMarkers = {};
+
+    function token() {
+        return '49df940962423948af071555385762e80d44389b'; // Tu token
+    }
+
+    function createMap() {
+        var OpenStreetMap_Mapnik = L.tileLayer(
+            "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+            {
+                maxZoom: 19,
+                attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+            }
+        );
+
+        // Crear el mapa centrado en Bogotá
+        let map = L.map(document.getElementById("leaflet-map"), {
+            attributionControl: false,
+            gestureHandling: true,
+            zoomSnap: 0.1,
+        })
+            .setView([4.69000, -73.90000], 11)  // Coordenadas de Bogotá con un zoom adecuado
+            .addLayer(OpenStreetMap_Mapnik);
+
+        return map;
+    }
+
+    // Función que filtra las estaciones dentro de los límites de Bogotá
+    function isWithinBogota(lat, lon) {
+        // Definir los límites aproximados de Bogotá
+        const latMin = 4.5;
+        const latMax = 4.9;
+        const lonMin = -74.3;
+        const lonMax = -73.7;
+
+        return lat >= latMin && lat <= latMax && lon >= lonMin && lon <= lonMax;
+    }
+
+    function populateMarkers(map, bounds, isRefresh) {
+        return fetch(
+            "https://api.waqi.info/v2/map/bounds/?latlng=" +
+            bounds +
+            "&token=" +
+            token()
+        )
+            .then((x) => x.json())
+            .then((stations) => {
+                if (stations.status != "ok") throw stations.data;
+
+                stations.data.forEach((station) => {
+                    // Filtrar solo estaciones dentro de Bogotá
+                    if (!isWithinBogota(station.lat, station.lon)) return;
+
+                    if (allMarkers[station.uid])
+                        map.removeLayer(allMarkers[station.uid]);
+
+                    let iw = 83,
+                        ih = 107;
+                    let icon = L.icon({
+                        iconUrl:
+                            "https://waqi.info/mapicon/" + station.aqi + ".30.png",
+                        iconSize: [iw / 2, ih / 2],
+                        iconAnchor: [iw / 4, ih / 2 - 5],
+                    });
+
+                    let marker = L.marker([station.lat, station.lon], {
+                        zIndexOffset: station.aqi,
+                        title: station.station.name,
+                        icon: icon,
+                    }).addTo(map);
+
+                    marker.on("click", () => {
+                        let popup = L.popup()
+                            .setLatLng([station.lat, station.lon])
+                            .setContent(station.station.name)
+                            .openOn(map);
+
+                        getMarkerPopup(station.uid).then((info) => {
+                            popup.setContent(info);
+                        });
+                    });
+
+                    allMarkers[station.uid] = marker;
+                });
+
+                document.getElementById("leaflet-map-error").style.display = "none";
+                return stations.data.map(
+                    (station) => new L.LatLng(station.lat, station.lon)
+                );
+            })
+            .catch((e) => {
+                var o = document.getElementById("leaflet-map-error");
+                o.innerHTML = "Sorry...." + e;
+                o.style.display = "";
+            });
+    }
+
+    function populateAndFitMarkers(map, bounds) {
+        removeMarkers(map);
+        if (bounds.split(",").length == 2) {
+            let [lat, lng] = bounds.split(",");
+            lat = parseFloat(lat);
+            lng = parseFloat(lng);
+            bounds = `${lat - 0.5},${lng - 0.5},${lat + 0.5},${lng + 0.5}`;
+        }
+        populateMarkers(map, bounds).then((markerBounds) => {
+            let [lat1, lng1, lat2, lng2] = bounds.split(",");
+            let mapBounds = L.latLngBounds(
+                L.latLng(lat2, lng2),
+                L.latLng(lat1, lng1)
+            );
+            map.fitBounds(mapBounds, {maxZoom: 12, paddingTopLeft: [0, 40]});
+        });
+    }
+
+    function removeMarkers(map) {
+        Object.values(allMarkers).forEach((marker) => map.removeLayer(marker));
+        allMarkers = {};
+    }
+
+    function getMarkerPopup(markerUID) {
+        return getMarkerAQI(markerUID).then((marker) => {
+            let info =
+                marker.city.name +
+                ": AQI " +
+                marker.aqi +
+                " updated on " +
+                new Date(marker.time.v * 1000).toLocaleTimeString() +
+                "<br>";
+
+            if (marker.city.location) {
+                info += "<b>Location</b>: ";
+                info += "<small>" + marker.city.location + "</small><br>";
+            }
+
+            let pollutants = ["pm25", "pm10", "o3", "no2", "so2", "co"];
+
+            info += "<b>Pollutants</b>: ";
+            for (let specie in marker.iaqi) {
+                if (pollutants.indexOf(specie) >= 0)
+                    info += "<u>" + specie + "</u>:" + marker.iaqi[specie].v + " ";
+            }
+            info += "<br>";
+
+            info += "<b>Weather</b>: ";
+            for (let specie in marker.iaqi) {
+                if (pollutants.indexOf(specie) < 0)
+                    info += "<u>" + specie + "</u>:" + marker.iaqi[specie].v + " ";
+            }
+            info += "<br>";
+
+            info += "<b>Attributions</b>: <small>";
+            info += marker.attributions
+                .map(
+                    (attribution) =>
+                        "<a target=_ href='" +
+                        attribution.url +
+                        "'>" +
+                        attribution.name +
+                        "</a>"
+                )
+                .join(" - ");
+            return info;
+        });
+    }
+
+    function getMarkerAQI(markerUID) {
+        return fetch(
+            "https://api.waqi.info/feed/@" + markerUID + "/?token=" + token()
+        )
+            .then((x) => x.json())
+            .then((data) => {
+                if (data.status != "ok") throw data.reason;
+                return data.data;
+            });
+    }
+
+    function init() {
+        var map = createMap();
+
+        // Ubicación de Bogotá con sus coordenadas
+        const locations = {
+            Bogotá: "4.69000, -73.90000",
+        };
+
+        // Llamar a la función para cargar los puntos (marcadores) de calidad del aire
+        const bounds = "4.523540900490207,-74.25903532274278,4.794004584467748,-73.97837587548669"; // Limites aproximados de Bogotá
+        populateMarkers(map, bounds); // Cargar los marcadores automáticamente al iniciar
+
+        // Botón para resetear el mapa a Bogotá
+        const bogotaButton = document.getElementById("bogota-button");
+        bogotaButton.addEventListener("click", () => {
+            map.setView([4.69000, -73.90000], 11); // Centra el mapa en Bogotá
+            removeMarkers(map);
+            populateMarkers(map, bounds); // Limites aproximados de Bogotá
+        });
+
+        // Cargar las estaciones de calidad del aire
+        fetch("https://api.waqi.info/v2/feed/here/?token=" + token())
+            .then((x) => x.json())
+            .then((x) => {
+                // En este caso no agregamos más botones, solo el de Bogotá
+            });
+    }
+
+    init();
+    </script>
+    <script>
+    // Tu código de búsqueda
+        function token() {
+            return '49df940962423948af071555385762e80d44389b'; // Tu token
+        }
+
+        // Función de inicialización
+        function init(outputId) {
+            var output = $(outputId);
+            // Realizar la búsqueda por estaciones de Bogotá cuando la página carga
+            search(output);
+        }
+
+        // Función para realizar la búsqueda de las estaciones en Bogotá
+        function search(output) {
+            output.html("Estaciones principales en Bogotá:");
+            output.append($("<div/>").html("Cargando..."));
+            output.append($("<div/>").addClass("cp-spinner cp-meter"));
+
+            // Configuramos la búsqueda para que sólo obtenga estaciones en Bogotá
+            let url =
+                "https://api.waqi.info/v2/search/?token=" +
+                token() + // Usamos el token directamente
+                "&keyword=" +
+                encodeURIComponent("Bogotá"); // Siempre buscaremos estaciones en Bogotá
+
+            fetch(url)
+                .then((response) => response.json())
+                .then((result) => {
+                    // Limpiamos el spinner de carga
+                    output.html("Haz clic en cualquiera de los botones para ver la información detallada desplegada en la parte inferior:");
+                    if (!result || result.status !== "ok") {
+                        output.append("¡Lo siento, no hay resultados disponibles!");
+                        return;
+                    }
+
+                    if (result.data.length === 0) {
+                        output.append("¡Lo siento, no se encontraron estaciones en Bogotá!");
+                        return;
+                    }
+
+                    var table = $("<table/>").addClass("result");
+                    output.append(table);
+
+                    var stationInfo = $("<div/>");
+                    output.append(stationInfo);
+
+                    // Iteramos sobre las estaciones encontradas
+                    result.data.forEach(function (station, i) {
+                        var tr = $("<tr>");
+                        tr.append($("<td>").html(
+                            $("<button/>").text(station.station.name)
+                                .on("click", function () {
+                                    showStation(station, stationInfo); // Mostrar información al hacer clic
+                                })
+                        ));
+                        tr.append($("<td>").html(colorize(station.aqi)));
+                        tr.append($("<td>").html(station.time.stime));
+                        table.append(tr);
+                    });
+                })
+                .catch((e) => {
+                    output.html("<div class='ui negative message'>Error: " + e + "</div>");
+                });
+        }
+
+        // Función para mostrar detalles de la estación seleccionada
+        function showStation(station, output) {
+            output.html("<h2>Contaminantes y condiciones meteorológicas:</h2>");
+            output.append($("<div/>").html("Cargando..."));
+            output.append($("<div/>").addClass("cp-spinner cp-meter"));
+
+            let url =
+                "https://api.waqi.info/feed/@" + station.uid + "/?token=" + token();
+
+            fetch(url)
+                .then((response) => response.json())
+                .then((result) => {
+                    output.html("<h2>Contaminantes y condiciones meteorológicas:</h2>");
+                    if (!result || result.status !== "ok") {
+                        output.append("¡Lo siento, algo salió mal! ");
+                        if (result.data) output.append($("<code>").html(result.data));
+                        return;
+                    }
+
+                    var names = {
+                        pm25: "PM<sub>2.5</sub>",
+                        pm10: "PM<sub>10</sub>",
+                        o3: "Ozono",
+                        no2: "Dióxido de nitrógeno",
+                        so2: "Dióxido de azufre",
+                        co: "Monóxido de carbono",
+                        t: "Temperatura",
+                        w: "Viento",
+                        r: "Lluvia (precipitación)",
+                        h: "Humedad relativa",
+                        d: "Punto de rocío",
+                        p: "Presión atmosférica",
+                        dew: "Punto de rocío",
+                        wd: "Dirección del viento",
+                        wg: "Ráfagas de viento",
+                    };
+
+                    output.append(
+                        $("<div>").html(
+                            "Estación: " +
+                            result.data.city.name +
+                            " en " +
+                            result.data.time.s
+                        )
+                    );
+
+                    var table = $("<table/>").addClass("result");
+                    output.append(table);
+
+                    for (var specie in result.data.iaqi) {
+                        var aqi = result.data.iaqi[specie].v;
+                        var tr = $("<tr>");
+                        tr.append($("<td>").html(names[specie] || specie));
+                        tr.append($("<td>").html(colorize(aqi, specie)));
+                        table.append(tr);
+                    }
+                })
+                .catch((e) => {
+                    output.html("<h2>Lo siento, algo salió mal</h2>" + e);
+                });
+        }
+
+        // Función para cambiar el color según el AQI
+        function colorize(aqi, specie) {
+            specie = specie || "aqi";
+            if (["pm25", "pm10", "no2", "so2", "co", "o3", "aqi"].indexOf(specie) < 0)
+                return aqi;
+
+            var spectrum = [
+                {a: 0, b: "#cccccc", f: "#ffffff"},
+                {a: 50, b: "#009966", f: "#ffffff"},
+                {a: 100, b: "#ffde33", f: "#000000"},
+                {a: 150, b: "#ff9933", f: "#000000"},
+                {a: 200, b: "#cc0033", f: "#ffffff"},
+                {a: 300, b: "#660099", f: "#ffffff"},
+                {a: 500, b: "#7e0023", f: "#ffffff"},
+            ];
+
+            var i = 0;
+            for (i = 0; i < spectrum.length - 2; i++) {
+                if (aqi == "-" || aqi <= spectrum[i].a) break;
+            }
+            return $("<div/>")
+                .html(aqi)
+                .css("font-size", "120%")
+                .css("min-width", "30px")
+                .css("text-align", "center")
+                .css("background-color", spectrum[i].b)
+                .css("color", spectrum[i].f);
+        }
+
+        // Inicializa la búsqueda cuando la página se carga
+        $(document).ready(function () {
+            init('#output');
+        });
+    </script>
+</body>
 </html>
