@@ -226,7 +226,7 @@
             gestureHandling: true,
             zoomSnap: 0.1,
         })
-            .setView([4.69000, -73.90000], 11)  // Coordenadas de Bogotá con un zoom adecuado
+            .setView([4.69000, -74.10000], 11)  // Coordenadas de Bogotá con un zoom adecuado
             .addLayer(OpenStreetMap_Mapnik);
 
         return map;
@@ -387,7 +387,7 @@
 
         // Ubicación de Bogotá con sus coordenadas
         const locations = {
-            Bogotá: "4.69000, -73.90000",
+            Bogotá: "4.69000, -74.10000",
         };
 
         // Llamar a la función para cargar los puntos (marcadores) de calidad del aire
@@ -397,7 +397,7 @@
         // Botón para resetear el mapa a Bogotá
         const bogotaButton = document.getElementById("bogota-button");
         bogotaButton.addEventListener("click", () => {
-            map.setView([4.69000, -73.90000], 11); // Centra el mapa en Bogotá
+            map.setView([4.69000, -74.10000], 11); // Centra el mapa en Bogotá
             removeMarkers(map);
             populateMarkers(map, bounds); // Limites aproximados de Bogotá
         });
