@@ -19,7 +19,7 @@ El propósito principal de la plataforma es brindar información en tiempo real 
 En la plataforma los usuarios tendrán que registrarse para iniciar sesión y visualizar toda la información que se ofrece, desde mapas interactivos con los diferentes puntos que toman información sobre agentes contaminantes del aire y datos meteorológicos en la ciudad de Bogotá, hasta una tabla con las estaciones principales de la ciudad que despliega los distintos datos recolectados en los puntos.
 
 Además, la plataforma ofrece una pestaña de información ambiental adicional para que los usuarios puedan conocer el significado de los datos que se recolectan para compararlo con los datos en tiempo real que ofrece la plataforma y entender de manera clara el significado de cada dato.
-La plataforma está desarrollada en Node.js usando un motor de plantilla para JavaScript conocido como EJS (Embedded JavaScript). También usa herramientas como CSS y la conexión a una Base de datos en MySQL
+La plataforma está desarrollada en Node.js usando un motor de plantilla para JavaScript conocido como EJS (Embedded JavaScript). También usa herramientas como CSS y la conexión a una Base de datos en MySQL.
 
 ### 👥 Equipo de trabajo
 - Geoffrey Struss
