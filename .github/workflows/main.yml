@@ -1,4 +1,4 @@
-name: Build and Deploy Angular App
+name: Build and Deploy Node.js App
 
 on:
   push:
@@ -25,16 +25,14 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
-      - name: Build Angular App
-        run: npm run build -- --configuration=production
-
       - name: Perform Security Scan
         uses: ShiftLeftSecurity/scan-action@master
         with:
           type: "credscan,node,depscan"
 
-      - name: Upload Build Artifacts
+      - name: Upload Logs (if exists)
         uses: actions/upload-artifact@v4
         with:
-          name: angular-dist
-          path: dist/
+          name: logs
+          path: logs/
+          if-no-files-found: ignore
