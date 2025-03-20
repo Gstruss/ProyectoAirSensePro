@@ -27,11 +27,17 @@ La plataforma está desarrollada en Node.js usando un motor de plantilla para Ja
 - Daniel López
 - Dilan Paez
 
-### 📽️ Speech del Proyecto
-https://www.youtube.com/watch?v=5YHhqZae3XA
-
 ### 📂 Portafolio del Proyecto
 https://gstruss.github.io/PortafolioAirSensePro/
 
+### 📽️ Speech del Proyecto web
+https://www.youtube.com/watch?v=5YHhqZae3XA
+
 ### 💻 Despliegue en la web
 https://proyecto-air-sense-pro.vercel.app/inicio
+
+### 🎥 Speech del Proyecto Móvil
+https://youtu.be/JdmwrmpzNB8?si=2MtpNhrJZwXNDrdU
+
+### 📱 Despliegue en Móvil
+En proceso...
